@@ -12,20 +12,34 @@ import ReactDOM from 'react-dom';
 // Исп. в VirtualDOM. Поэтому React работает так быстро
 // console.log(el);
 
-const el = (
-  <div>
-    <h1>
-      My Todo List
-    </h1>
-    <input type="text" placeholder="search"/>
+const TodoList = () => {
+  return (
     <ul>
       <li>Learn React</li>
       <li>Build Awesome App</li>
     </ul>
-  </div>
-);
+  );
+};
+
+const AppHeader = () => {
+  return <h1>My Todo List</h1>
+};
+
+const SearchPanel = () => {
+  return <input type="text" placeholder="search"/>
+};
+
+const App = () => {
+  return (
+    <div>
+      <AppHeader />
+      <SearchPanel />
+      <TodoList />
+    </div>
+  );
+};
 
 ReactDOM.render(
-  el,
+  <App />,
   document.getElementById('root')
 );
