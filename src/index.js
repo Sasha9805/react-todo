@@ -1,22 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// const el = React.createElement(
-//   'h1',
-//   null,
-//   'Hello World'
-// );
-
-// const el = <h1>Hello World</h1>;
-// Маленький (мало свойств) легковесный объект
-// Исп. в VirtualDOM. Поэтому React работает так быстро
-// console.log(el);
-
 const TodoList = () => {
+  const items = ['Learn React', 'Build Awesome App'];
   return (
     <ul>
-      <li>Learn React</li>
-      <li>Build Awesome App</li>
+      <li>{ items[0] }</li>
+      <li>{ items[1] }</li>
     </ul>
   );
 };
@@ -26,10 +16,21 @@ const AppHeader = () => {
 };
 
 const SearchPanel = () => {
-  return <input type="text" placeholder="search"/>
+
+  const searchText = 'Type here to search';
+
+  const searchStyles = {
+    fontSize: '15px'
+  };
+
+  return <input
+    placeholder={ searchText }
+    style={ searchStyles }
+    className="foo"/>;
 };
 
 const App = () => {
+
   return (
     <div>
       <AppHeader />
@@ -37,6 +38,7 @@ const App = () => {
       <TodoList />
     </div>
   );
+
 };
 
 ReactDOM.render(
