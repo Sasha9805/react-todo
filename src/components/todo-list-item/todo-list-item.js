@@ -3,13 +3,27 @@ import './todo-list-item.css';
 
 export default class TodoListItem extends Component {
 
+  state = {
+    done: false
+  };
+
   onLabelClick = () => {
-    console.log(`done: ${this.props.label}`);
+    // console.log(`done: ${this.props.label}`);
+    this.setState({
+      done: true
+    });
   };
 
   render() {
 
     const { label, important = false } = this.props;
+
+    const { done } = this.state;
+
+    let classNames = 'todo-list-item d-flex justify-content-between';
+    if (done) {
+      classNames += ' done';
+    }
 
     const style = {
       color: important ? 'steelblue' : 'black',
@@ -17,7 +31,7 @@ export default class TodoListItem extends Component {
     };
 
     return (
-      <span className="todo-list-item d-flex justify-content-between">
+      <span className={ classNames }>
 
         <span className="todo-list-item-label"
               style={ style }
