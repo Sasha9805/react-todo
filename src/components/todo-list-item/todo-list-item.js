@@ -3,32 +3,12 @@ import './todo-list-item.css';
 
 export default class TodoListItem extends Component {
 
-  state = {
-    done: false,
-    important: false
-  };
-
-  onLabelClick = () => {
-    this.setState(({done}) => {
-      return {
-        done: !done
-      };
-    });
-  };
-
-  onMarkImportant = () => {
-    this.setState(({important}) => {
-      return {
-        important: !important
-      };
-    });
-  };
-
   render() {
 
-    const { label, onDeleted } = this.props;
-
-    const { done, important } = this.state;
+    const { label, onDeleted,
+            onToggleImportant,
+            onToggleDone,
+            done, important} = this.props;
 
     let classNames = 'todo-list-item d-flex justify-content-between';
     if (done) {
@@ -38,23 +18,18 @@ export default class TodoListItem extends Component {
       classNames += ' important';
     }
 
-    // const style = {
-    //   color: important ? 'steelblue' : 'black',
-    //   fontWeight: important ? 'bold' : 'normal'
-    // };
-
     return (
       <span className={ classNames }>
 
         <span className="todo-list-item-label"
-              onClick={ this.onLabelClick }>
+              onClick={ onToggleDone }>
           { label }
         </span>
 
         <span className="todo-list-item-buttons">
           <button
               className="btn btn-sm btn-outline-success"
-              onClick={ this.onMarkImportant }>
+              onClick={ onToggleImportant }>
             <i className="fa fa-exclamation"></i>
           </button>
 
