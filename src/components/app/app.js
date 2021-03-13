@@ -18,7 +18,9 @@ export default class App extends Component {
       this.createTodoItem('Make Awesome App'),
       this.createTodoItem('Have a lunch'),
     ],
-    searchText: ''
+    searchText: '',
+    donePressed: false,
+    activePressed: false
   };
 
   createTodoItem(label) {
@@ -132,9 +134,36 @@ export default class App extends Component {
 
   };
 
+  onFilterActive = () => {
+    this.setState(({activePressed}) => {
+      return {
+        activePressed: true,
+        donePressed: false
+      };
+    });
+  };
+
+  onFilterAll = () => {
+    this.setState((state) => {
+      return {
+        activePressed: false,
+        donePressed: false
+      };
+    });
+  };
+
+  onFilterDone = () => {
+    this.setState((state) => {
+      return {
+        donePressed: true,
+        activePressed: false
+      };
+    });
+  };
+
   render() {
 
-    const { todoData } = this.state;
+    const { todoData, activePressed, donePressed } = this.state;
 
     const doneCount = todoData.filter(item => item.done).length;
     const todoCount = todoData.length - doneCount;
@@ -147,11 +176,18 @@ export default class App extends Component {
         <div className="top-panel d-flex justify-content-between">
           <SearchPanel
             onSearch={this.onSearch} />
-          <ItemStatusFilter />
+          <ItemStatusFilter
+            onFilterActive={this.onFilterActive}
+            onFilterAll={this.onFilterAll}
+            onFilterDone={this.onFilterDone}
+            donePressed={donePressed}
+            activePressed={activePressed}/>
         </div>
 
         <TodoList
           todos={ todoData }
+          isActivePressed={ activePressed }
+          isDonePressed={ donePressed }
           onDeleted={ this.deleteItem }
           onToggleImportant={this.onToggleImportant}
           onToggleDone={this.onToggleDone} />

@@ -3,14 +3,29 @@ import './todo-list.css';
 
 import TodoListItem from "../todo-list-item";
 
-const TodoList = ({ todos, onDeleted, onToggleImportant, onToggleDone }) => {
+const TodoList = ({ todos, isActivePressed, isDonePressed, onDeleted, onToggleImportant, onToggleDone }) => {
 
   const elements = todos.map(item => {
 
     const {id, ...itemProps} = item;
+    let style;
+
+    if (isDonePressed) {
+      style = {
+        display: itemProps.done && itemProps.visible ? 'block' : 'none'
+      };
+    } else if (isActivePressed) {
+      style = {
+        display: !itemProps.done && itemProps.visible ? 'block' : 'none'
+      };
+    } else {
+      style = {
+        display: itemProps.visible ? 'block' : 'none'
+      };
+    }
 
     return (
-      <li key={id} className="list-group-item" style={{display: itemProps.visible ? 'block' : 'none'}}>
+      <li key={id} className="list-group-item" style={style}>
         <TodoListItem
           {...itemProps}
           onDeleted={() => onDeleted(id)}
