@@ -17,7 +17,8 @@ export default class App extends Component {
       this.createTodoItem('Drink Coffee'),
       this.createTodoItem('Make Awesome App'),
       this.createTodoItem('Have a lunch'),
-    ]
+    ],
+    searchText: ''
   };
 
   createTodoItem(label) {
@@ -25,6 +26,7 @@ export default class App extends Component {
       label,
       important: false,
       done: false,
+      visible: true,
       id: this.maxId++
     };
   }
@@ -41,7 +43,7 @@ export default class App extends Component {
       ];
 
       return {
-        todoData: newArr
+        todoData: newArr,
       };
 
     });
@@ -63,6 +65,8 @@ export default class App extends Component {
         todoData: newArr
       };
     });
+
+    this.onSearch(this.state.searchText);
   };
 
   toggleProperty(arr, id, propName) {
@@ -101,6 +105,33 @@ export default class App extends Component {
     });
   };
 
+  onSearch = (text) => {
+
+    this.setState(({todoData}) => {
+
+      const newArr = todoData.map(obj => {
+        let visible = false;
+
+        if (~obj.label.indexOf(text)) {
+          visible = true;
+        }
+
+        return {
+          ...obj,
+          visible
+        };
+
+      });
+
+      return {
+        todoData: newArr,
+        searchText: text
+      };
+
+    });
+
+  };
+
   render() {
 
     const { todoData } = this.state;
@@ -114,7 +145,8 @@ export default class App extends Component {
         <AppHeader toDo={todoCount} done={doneCount} />
 
         <div className="top-panel d-flex justify-content-between">
-          <SearchPanel />
+          <SearchPanel
+            onSearch={this.onSearch} />
           <ItemStatusFilter />
         </div>
 
