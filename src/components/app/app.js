@@ -114,7 +114,7 @@ export default class App extends Component {
       const newArr = todoData.map(obj => {
         let visible = false;
 
-        if (~obj.label.indexOf(text)) {
+        if (~obj.label.toLowerCase().indexOf(text.toLowerCase())) {
           visible = true;
         }
 
@@ -135,7 +135,7 @@ export default class App extends Component {
   };
 
   onFilterActive = () => {
-    this.setState(({activePressed}) => {
+    this.setState((state) => {
       return {
         activePressed: true,
         donePressed: false

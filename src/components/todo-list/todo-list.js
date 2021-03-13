@@ -8,24 +8,22 @@ const TodoList = ({ todos, isActivePressed, isDonePressed, onDeleted, onToggleIm
   const elements = todos.map(item => {
 
     const {id, ...itemProps} = item;
-    let style;
+    let isDisplayed;
 
     if (isDonePressed) {
-      style = {
-        display: itemProps.done && itemProps.visible ? 'block' : 'none'
-      };
+      isDisplayed = itemProps.done && itemProps.visible;
     } else if (isActivePressed) {
-      style = {
-        display: !itemProps.done && itemProps.visible ? 'block' : 'none'
-      };
+      isDisplayed = !itemProps.done && itemProps.visible;
     } else {
-      style = {
-        display: itemProps.visible ? 'block' : 'none'
-      };
+      isDisplayed = itemProps.visible;
+    }
+
+    if (!isDisplayed) {
+      return null;
     }
 
     return (
-      <li key={id} className="list-group-item" style={style}>
+      <li key={id} className="list-group-item">
         <TodoListItem
           {...itemProps}
           onDeleted={() => onDeleted(id)}

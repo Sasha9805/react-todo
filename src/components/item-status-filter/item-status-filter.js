@@ -5,25 +5,25 @@ export default class ItemStatusFilter extends Component {
 
   render() {
 
-    const { donePressed, activePressed } = this.props;
+    const { donePressed, activePressed, onFilterAll, onFilterActive, onFilterDone } = this.props;
 
     return (
       <div className="btn-group">
         <button
           className={`btn ${!donePressed && !activePressed ? 'btn-info' : 'btn-outline-secondary'}`}
-          onClick={this.props.onFilterAll}
+          onClick={onFilterAll}
         >
           All
         </button>
         <button
           className={`btn ${activePressed ? 'btn-info' : 'btn-outline-secondary'}`}
-          onClick={this.props.onFilterActive}
+          onClick={onFilterActive}
         >
           Active
         </button>
         <button
           className={`btn ${donePressed ? 'btn-info' : 'btn-outline-secondary'}`}
-          onClick={this.props.onFilterDone}
+          onClick={onFilterDone}
         >
           Done
         </button>
