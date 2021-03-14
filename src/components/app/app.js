@@ -18,9 +18,11 @@ export default class App extends Component {
       this.createTodoItem('Make Awesome App'),
       this.createTodoItem('Have a lunch'),
     ],
-    searchText: '',
-    donePressed: false,
-    activePressed: false
+    term: ''
+
+    // searchText: '',
+    // donePressed: false,
+    // activePressed: false
   };
 
   createTodoItem(label) {
@@ -28,7 +30,7 @@ export default class App extends Component {
       label,
       important: false,
       done: false,
-      visible: true,
+      // visible: true,
       id: this.maxId++
     };
   }
@@ -68,7 +70,7 @@ export default class App extends Component {
       };
     });
 
-    this.onSearch(this.state.searchText);
+    // this.onSearch(this.state.searchText);
   };
 
   toggleProperty(arr, id, propName) {
@@ -107,63 +109,84 @@ export default class App extends Component {
     });
   };
 
-  onSearch = (text) => {
+  search(items, term) {
 
-    this.setState(({todoData}) => {
+    if (term.length === 0) {
+      return items;
+    }
 
-      const newArr = todoData.map(obj => {
-        let visible = false;
-
-        if (~obj.label.toLowerCase().indexOf(text.toLowerCase())) {
-          visible = true;
-        }
-
-        return {
-          ...obj,
-          visible
-        };
-
-      });
-
-      return {
-        todoData: newArr,
-        searchText: text
-      };
-
-    });
-
-  };
-
-  onFilterActive = () => {
-    this.setState((state) => {
-      return {
-        activePressed: true,
-        donePressed: false
-      };
+    return items.filter(item => {
+      return item.label
+        .toLowerCase()
+        .indexOf(term.toLowerCase()) > -1;
     });
   };
 
-  onFilterAll = () => {
-    this.setState((state) => {
-      return {
-        activePressed: false,
-        donePressed: false
-      };
-    });
+  onSearchChange = (term) => {
+    this.setState({term});
   };
 
-  onFilterDone = () => {
-    this.setState((state) => {
-      return {
-        donePressed: true,
-        activePressed: false
-      };
-    });
-  };
+  // onSearch = (text) => {
+  //
+  //   this.setState(({todoData}) => {
+  //
+  //     const newArr = todoData.map(obj => {
+  //       let visible = false;
+  //
+  //       if (~obj.label.toLowerCase().indexOf(text.toLowerCase())) {
+  //         visible = true;
+  //       }
+  //
+  //       return {
+  //         ...obj,
+  //         visible
+  //       };
+  //
+  //     });
+  //
+  //     return {
+  //       todoData: newArr,
+  //       searchText: text
+  //     };
+  //
+  //   });
+  //
+  // };
+  //
+  // onFilterActive = () => {
+  //   this.setState((state) => {
+  //     return {
+  //       activePressed: true,
+  //       donePressed: false
+  //     };
+  //   });
+  // };
+  //
+  // onFilterAll = () => {
+  //   this.setState((state) => {
+  //     return {
+  //       activePressed: false,
+  //       donePressed: false
+  //     };
+  //   });
+  // };
+  //
+  // onFilterDone = () => {
+  //   this.setState((state) => {
+  //     return {
+  //       donePressed: true,
+  //       activePressed: false
+  //     };
+  //   });
+  // };
 
   render() {
 
-    const { todoData, activePressed, donePressed } = this.state;
+    // const { todoData, activePressed, donePressed } = this.state;
+
+    const { todoData, term } = this.state;
+
+    const visibleItems = this.search(todoData, term);
 
     const doneCount = todoData.filter(item => item.done).length;
     const todoCount = todoData.length - doneCount;
@@ -175,19 +198,23 @@ export default class App extends Component {
 
         <div className="top-panel d-flex justify-content-between">
           <SearchPanel
-            onSearch={this.onSearch} />
+            onSearchChange={this.onSearchChange}
+            // onSearch={this.onSearch}
+          />
           <ItemStatusFilter
-            onFilterActive={this.onFilterActive}
-            onFilterAll={this.onFilterAll}
-            onFilterDone={this.onFilterDone}
-            donePressed={donePressed}
-            activePressed={activePressed}/>
+            // onFilterActive={this.onFilterActive}
+            // onFilterAll={this.onFilterAll}
+            // onFilterDone={this.onFilterDone}
+            // donePressed={donePressed}
+            // activePressed={activePressed}
+          />
         </div>
 
         <TodoList
-          todos={ todoData }
-          isActivePressed={ activePressed }
-          isDonePressed={ donePressed }
+          todos={visibleItems}
+          // todos={ todoData }
+          // isActivePressed={ activePressed }
+          // isDonePressed={ donePressed }
           onDeleted={ this.deleteItem }
           onToggleImportant={this.onToggleImportant}
           onToggleDone={this.onToggleDone} />

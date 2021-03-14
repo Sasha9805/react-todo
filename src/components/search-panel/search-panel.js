@@ -3,6 +3,16 @@ import './search-panel.css';
 
 export default class SearchPanel extends Component {
 
+  state = {
+    term: ''
+  };
+
+  onSearchChange = (event) => {
+    const term = event.target.value;
+    this.setState({term});
+    this.props.onSearchChange(term);
+  };
+
   render() {
     const searchText = 'Type here to search';
 
@@ -10,7 +20,10 @@ export default class SearchPanel extends Component {
       <input
         placeholder={ searchText }
         className="form-control search-input"
-        onChange={(event) => this.props.onSearch(event.target.value)}/>
+        value={this.state.term}
+        onChange={this.onSearchChange}
+        // onChange={(event) => this.props.onSearch(event.target.value)}
+      />
     );
 
   }
